@@ -1,0 +1,14 @@
+﻿name: MySQL cluster scalable
+services:
+- type: org.apache.brooklyn.entity.database.mysql.MySqlCluster
+  initialSize: 2                
+  brooklyn.policies:
+  - policyType: org.apache.brooklyn.policy.autoscaling.AutoScalerPolicy
+    brooklyn.config:
+      metric: webapp.reqs.perSec.windowed.perNode
+      metricLowerBound: 2
+      metricUpperBound: 10
+      resizeUpStabilizationDelay: 4s
+      resizeDownStabilizationDelay: 1m
+      minPoolSize: 1
+      maxPoolSize: 5
